@@ -669,15 +669,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< HEAD
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
         m_MethodName: Changescene
-=======
       - m_Target: {fileID: 1339964366}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: OnPlayButton
->>>>>>> 4f8564c7a58e31950177e655cd263f35268be7cd
+4f8564c7a58e31950177e655cd263f35268be7cd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -935,8 +933,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 369848597}
   - {fileID: 120418404}
-<<<<<<< HEAD
   - {fileID: 883630675}
-=======
   - {fileID: 1339964367}
->>>>>>> 4f8564c7a58e31950177e655cd263f35268be7cd
+4f8564c7a58e31950177e655cd263f35268be7cd
