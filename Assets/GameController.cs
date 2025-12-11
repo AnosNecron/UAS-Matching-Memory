@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement; // TAMBAH INI
 
+
 public class GameController : MonoBehaviour
 {
     [Header("Settings")]
@@ -25,6 +26,11 @@ public class GameController : MonoBehaviour
     private List<Card> _flippedCards = new List<Card>();
     public bool IsProcessing { get; private set; }
 
+    // ====== TAMBAHAN UNTUK MENANG ======
+    private int matchedPairs = 0;      // hitung berapa pasangan yang sudah cocok
+    private int totalPairs = 0;        // total pasangan di level ini
+    // ===================================
+
     void Start()
     {
         IsProcessing = true;
@@ -36,7 +42,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         if (gameOver) return;
-        
+
         gameTime += Time.deltaTime;
         if (gameTime >= maxTime)
         {
@@ -56,6 +62,9 @@ public class GameController : MonoBehaviour
             cardIndices.Add(i);
             cardIndices.Add(i);
         }
+
+        // set total pasangan (1 pasangan per sprite)
+        totalPairs = cardFaces.Count;   // TAMBAH INI
 
         Shuffle(cardIndices);
 
@@ -100,7 +109,21 @@ public class GameController : MonoBehaviour
         if (_flippedCards[0].GetId() == _flippedCards[1].GetId())
         {
             Debug.Log("Pasangan Cocok!");
-            score += 100;           
+            score += 100;
+
+            // opsional: disable kartu yang sudah cocok
+            // _flippedCards[0].gameObject.SetActive(false);
+            // _flippedCards[1].gameObject.SetActive(false);
+
+            matchedPairs++;  // TAMBAH INI
+
+            // cek kalau semua pasangan sudah terbuka
+            if (matchedPairs >= totalPairs)   // TAMBAH INI
+            {
+                gameOver = true;              // supaya Update() berhenti jalan
+                SceneManager.LoadScene("Menang"); // pastikan nama scenenya persis
+                yield break;
+            }
         }
         else
         {
@@ -108,8 +131,8 @@ public class GameController : MonoBehaviour
             _flippedCards[1].ResetCard();
 
             Debug.Log("Salah!");
-            score -= 50;            
-            if (score < 0) score = 0; 
+            score -= 50;
+            if (score < 0) score = 0;
         }
 
         UpdateScoreUI();
