@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // TAMBAH INI
+using UnityEngine.SceneManagement;
 
 
 public class GameController : MonoBehaviour
@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public List<Sprite> cardFaces;
 
     [Header("Timer")]
-    public float maxTime = 60f; // TAMBAH INI
+    public float maxTime = 60f; 
 
     [Header("UI")]
     public Text timeText;
@@ -21,15 +21,13 @@ public class GameController : MonoBehaviour
 
     private float gameTime = 0f;
     private int score = 0;
-    private bool gameOver = false; // TAMBAH INI
+    private bool gameOver = false;
 
     private List<Card> _flippedCards = new List<Card>();
     public bool IsProcessing { get; private set; }
 
-    // ====== TAMBAHAN UNTUK MENANG ======
-    private int matchedPairs = 0;      // hitung berapa pasangan yang sudah cocok
-    private int totalPairs = 0;        // total pasangan di level ini
-    // ===================================
+    private int matchedPairs = 0; 
+    private int totalPairs = 0;   
 
     void Start()
     {
@@ -63,8 +61,7 @@ public class GameController : MonoBehaviour
             cardIndices.Add(i);
         }
 
-        // set total pasangan (1 pasangan per sprite)
-        totalPairs = cardFaces.Count;   // TAMBAH INI
+        totalPairs = cardFaces.Count; 
 
         Shuffle(cardIndices);
 
@@ -111,17 +108,12 @@ public class GameController : MonoBehaviour
             Debug.Log("Pasangan Cocok!");
             score += 100;
 
-            // opsional: disable kartu yang sudah cocok
-            // _flippedCards[0].gameObject.SetActive(false);
-            // _flippedCards[1].gameObject.SetActive(false);
+            matchedPairs++;  
 
-            matchedPairs++;  // TAMBAH INI
-
-            // cek kalau semua pasangan sudah terbuka
-            if (matchedPairs >= totalPairs)   // TAMBAH INI
+            if (matchedPairs >= totalPairs)   
             {
-                gameOver = true;              // supaya Update() berhenti jalan
-                SceneManager.LoadScene("Menang"); // pastikan nama scenenya persis
+                gameOver = true;             
+                SceneManager.LoadScene("Menang"); 
                 yield break;
             }
         }
