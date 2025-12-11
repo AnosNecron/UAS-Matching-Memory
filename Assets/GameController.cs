@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // TAMBAH INI
 
 public class GameController : MonoBehaviour
 {
@@ -10,12 +11,16 @@ public class GameController : MonoBehaviour
     public GameObject cardPrefab;
     public List<Sprite> cardFaces;
 
+    [Header("Timer")]
+    public float maxTime = 60f; // TAMBAH INI
+
     [Header("UI")]
     public Text timeText;
     public Text scoreText;
 
     private float gameTime = 0f;
     private int score = 0;
+    private bool gameOver = false; // TAMBAH INI
 
     private List<Card> _flippedCards = new List<Card>();
     public bool IsProcessing { get; private set; }
@@ -30,8 +35,15 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        if (gameOver) return;
         
         gameTime += Time.deltaTime;
+        if (gameTime >= maxTime)
+        {
+            gameOver = true;
+            SceneManager.LoadScene("Game Over");
+            return;
+        }
         UpdateTimeUI();
     }
 
@@ -39,7 +51,6 @@ public class GameController : MonoBehaviour
     {
         List<int> cardIndices = new List<int>();
 
-        
         for (int i = 0; i < cardFaces.Count; i++)
         {
             cardIndices.Add(i);
@@ -107,13 +118,10 @@ public class GameController : MonoBehaviour
         IsProcessing = false;
     }
 
-
-
     void UpdateTimeUI()
     {
         timeText.text = "Time: " + Mathf.FloorToInt(gameTime);
     }
-
 
     void UpdateScoreUI()
     {
